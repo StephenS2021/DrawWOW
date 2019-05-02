@@ -9,13 +9,34 @@
 
     <body>
         <script type='text/javascript'>
+          let coords = 0
+          function init(){
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.addEventListener("mousedown", getMouseCoords, false);
 
-          const canvas = document.getElementById('canvas');
-          const ctx = canvas.getContext('2d');
+            ctx.fillRect(0, 0, 1000, 1000);
 
-          ctx.fillRect(0, 0, 1000, 1000);
+          }
+          document.addEventListener('DOMContentLoaded', function() { //when the document has fully loaded
+
+            coords = getMouseCoords(event)
+            console.log(coords)
+          }, false);
+
+          function getMouseCoords(event){ //gets mouse coords on canvas
+            var x = event.x
+            var y = event.y
+
+            var canvas = document.getElementById("canvas");
+
+            x -= canvas.offsetLeft;
+            y -= canvas.offsetTop;
+            return [x, y]
+          }
 
 
+          window.onload = init;
         </script>
 
     </body>

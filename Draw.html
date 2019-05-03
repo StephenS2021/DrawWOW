@@ -28,6 +28,7 @@
           }
           #slideout:hover{
             left: 200px;
+            opacity: 0.5;
 
           }
           #slideout:hover #slideout_inner{
@@ -35,6 +36,7 @@
             height: 50px;
           }
           #colorPicker{
+            opacity: 1;
             width: 100px;
             height: 50px;
           }
@@ -80,9 +82,7 @@
             x = event.x
             y = event.y
 
-
             var canvas = document.getElementById("canvas");
-
             x -= canvas.offsetLeft;
             y -= canvas.offsetTop;
 

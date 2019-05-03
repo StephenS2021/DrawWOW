@@ -1,38 +1,93 @@
 <html>
+
     <head>
         <title>DrawWOW</title>
         <style type='text/css'>
+          html{overflow: hidden;}
+          #slideout {
+            position: absolute;
+            top: 40px;
+            left: 1;
+            -webkit-transition-duration: 0.3s;
+            -moz-transition-duration: 0.3s;
+            -o-transition-duration: 0.3s;
+            transition-duration: 0.3s;
+          }
+          #slideout_inner {
+            position: fixed;
+            background: black;
+            top: 40px;
+            left: -250px;
+            width: 250px;
+            height: 50px;
+            padding: 25px;
+            -webkit-transition-duration: 0.3s;
+            -moz-transition-duration: 0.3s;
+            -o-transition-duration: 0.3s;
+            transition-duration: 0.3s;
+          }
+          #slideout:hover{
+            left: 200px;
 
+          }
+          #slideout:hover #slideout_inner{
+            left: 0;
+            height: 50px;
+          }
+          #colorPicker{
+            width: 100px;
+            height: 50px;
+          }
         </style>
     </head>
     <canvas id="canvas"></canvas>
 
     <body>
+      <div id="slideout">
+        <div id="slideout_inner">
+          <input id="colorPicker" type="color" />
+        </div>
+      </div>
         <script type='text/javascript'>
-          let coords = 0
+          let coords = []
           function init(){
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
             canvas.addEventListener("mousedown", getMouseCoords, false);
+            colorPicker.addEventListener("change", watchColorPicker, false);
 
-            ctx.fillRect(0, 0, 1000, 1000);
+
+            ctx.canvas.width  = window.innerWidth
+            ctx.canvas.height = window.innerHeight
+            ctx.fillStyle = "white";
+            ctx.fillRect (0, 0, 1920, 1080);
+
+            animTimer = setInterval( update, 16 );
 
           }
-          document.addEventListener('DOMContentLoaded', function() { //when the document has fully loaded
+          function update(){
+            //update colors on board
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.canvas.width  = window.innerWidth
+            ctx.canvas.height = window.innerHeight
+            ctx.fillStyle = "white"
+            ctx.fillRect (0, 0, 1920, 1080)
 
-            coords = getMouseCoords(event)
-            console.log(coords)
-          }, false);
+          }
 
           function getMouseCoords(event){ //gets mouse coords on canvas
-            var x = event.x
-            var y = event.y
+            x = event.x
+            y = event.y
+
 
             var canvas = document.getElementById("canvas");
 
             x -= canvas.offsetLeft;
             y -= canvas.offsetTop;
-            return [x, y]
+
+            console.log(coords)
+            coords = [x, y]
           }
 
 

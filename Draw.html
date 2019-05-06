@@ -15,7 +15,7 @@
           }
           #slideout_inner {
             position: fixed;
-            background: linear-gradient(-90deg, pink, #e871da);
+            background: linear-gradient(-90deg, rgba(255,192,203, 0.5), rgba(232, 113, 218, 0.5));
             top: 40px;
             left: -250px;
             width: 250px;
@@ -28,7 +28,6 @@
           }
           #slideout:hover{
             left: 200px;
-            opacity: 0.5;
 
           }
           #slideout:hover #slideout_inner{
@@ -47,7 +46,7 @@
     <body>
       <div id="slideout">
         <div id="slideout_inner">
-          <input id="colorPicker" type="color" />
+          <input id="colorPicker" type="color" value="#ff0000"/>
         </div>
       </div>
         <script type='text/javascript'>
@@ -55,7 +54,7 @@
           function init(){
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
-            canvas.addEventListener("mousedown", getMouseCoords, false);
+            canvas.addEventListener("mousemove", getMouseCoords, false);
             colorPicker.addEventListener("change", watchColorPicker, false);
 
 
@@ -73,8 +72,8 @@
             const ctx = canvas.getContext('2d');
             ctx.canvas.width  = window.innerWidth
             ctx.canvas.height = window.innerHeight
-            ctx.fillStyle = "white"
-            ctx.fillRect (0, 0, 1920, 1080)
+
+
 
           }
 
@@ -86,8 +85,11 @@
             x -= canvas.offsetLeft;
             y -= canvas.offsetTop;
 
-            console.log(coords)
             coords = [x, y]
+          }
+
+          function watchColorPicker(event){//gets color picked and sets to draw color
+            event.target.value
           }
 
 

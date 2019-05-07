@@ -40,6 +40,7 @@
             height: 50px;
           }
         </style>
+
     </head>
     <canvas id="canvas"></canvas>
 
@@ -49,6 +50,7 @@
           <input id="colorPicker" type="color" value="#ff0000"/>
         </div>
       </div>
+        <script src="jquery-3.4.1.min.js"></script>
         <script type='text/javascript'>
           let coords = []
           function init(){
@@ -66,6 +68,19 @@
             animTimer = setInterval( update, 16 );
 
           }
+          $(document).ready(function() {
+            setCookie('lastVisitTime', new Date(now()))
+            const lastVisit = getCookie('lastVisitTime');
+            const now = Date.now();
+            if (lastVisit) {
+               const hoursSinceLastTime = Math.ceil((parseInt(lastVisit) - now) / 3600);
+               alert(`It's been ${hoursSinceLastTime} hour(s) since you last visited`);
+            }
+            setCookie('lastVisitTime', now);
+            console.log(hoursSinceLastTime);
+            console.log("ran")
+          });
+
           function update(){
             //update colors on board
             const canvas = document.getElementById('canvas');

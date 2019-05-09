@@ -4,15 +4,7 @@
         <title>DrawWOW</title>
         <style type='text/css'>
           html{overflow: hidden;}
-          #slideout {
-            position: absolute;
-            top: 40px;
-            left: 1;
-            -webkit-transition-duration: 0.3s;
-            -moz-transition-duration: 0.3s;
-            -o-transition-duration: 0.3s;
-            transition-duration: 0.3s;
-          }
+
           #slideout_inner {
             position: fixed;
             background: linear-gradient(-90deg, rgba(255,192,203, 0.5), rgba(232, 113, 218, 0.5));
@@ -21,26 +13,19 @@
             width: 250px;
             height: 50px;
             padding: 25px;
-            -webkit-transition-duration: 0.3s;
-            -moz-transition-duration: 0.3s;
-            -o-transition-duration: 0.3s;
-            transition-duration: 0.3s;
+            transition-duration: 0.7s;
           }
-          #slideout:hover{
-            left: 200px;
 
-          }
           #slideout:hover #slideout_inner{
             left: 0;
             height: 50px;
           }
           #colorPicker{
-            opacity: 1;
             width: 100px;
             height: 50px;
           }
+          
         </style>
-
     </head>
     <canvas id="canvas"></canvas>
 
@@ -56,7 +41,9 @@
           function init(){
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
-            canvas.addEventListener("mousemove", getMouseCoords, false);
+            let pickedColor = '';
+            canvas.addEventListener("mousemove", onMouseMove, false);
+            canvas.addEventListener('mousedown', onMouseDown, false);
             colorPicker.addEventListener("change", watchColorPicker, false);
 
 
@@ -68,43 +55,45 @@
             animTimer = setInterval( update, 16 );
 
           }
-          $(document).ready(function() {
-            setCookie('lastVisitTime', new Date(now()))
-            const lastVisit = getCookie('lastVisitTime');
-            const now = Date.now();
-            if (lastVisit) {
-               const hoursSinceLastTime = Math.ceil((parseInt(lastVisit) - now) / 3600);
-               alert(`It's been ${hoursSinceLastTime} hour(s) since you last visited`);
-            }
-            setCookie('lastVisitTime', now);
-            console.log(hoursSinceLastTime);
-            console.log("ran")
-          });
 
           function update(){
             //update colors on board
-            const canvas = document.getElementById('canvas');
-            const ctx = canvas.getContext('2d');
-            ctx.canvas.width  = window.innerWidth
-            ctx.canvas.height = window.innerHeight
-
+            // const canvas = document.getElementById('canvas');
+            // const ctx = canvas.getContext('2d');
+            // ctx.canvas.width  = window.innerWidth
+            // ctx.canvas.height = window.innerHeight
 
 
           }
 
-          function getMouseCoords(event){ //gets mouse coords on canvas
+          function onMouseDown(event){
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+
+            ctx.beginPath()
+            ctx.fillStyle = pickedColor;
+            ctx.moveTo(event.clientX, event.clientY)
+            ctx.lineTo(coords[0], coords[1])
+            ctx.stroke()
+            ctx.closePath()
+
+          }
+
+          function onMouseMove(event){ //gets mouse coords on canvas
+            var canvas = document.getElementById("canvas");
             x = event.x
             y = event.y
 
-            var canvas = document.getElementById("canvas");
             x -= canvas.offsetLeft;
             y -= canvas.offsetTop;
 
             coords = [x, y]
+
           }
 
           function watchColorPicker(event){//gets color picked and sets to draw color
-            event.target.value
+            pickedColor = event.target.value
+
           }
 
 

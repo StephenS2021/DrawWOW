@@ -1,6 +1,6 @@
 <html>
-
     <head>
+
         <title>DrawWOW</title>
         <style type='text/css'>
           html{overflow: hidden;}
@@ -12,19 +12,28 @@
             width: 250px;
             height: 50px;
             padding: 25px;
-            -webkit-transition-duration: 0.3s;
-            -moz-transition-duration: 0.3s;
-            -o-transition-duration: 0.3s;
-            transition-duration: 0.3s;
+            transition-duration: 0.7s;
           }
           #slideout:hover #slideout_inner{
             left: 0;
             height: 50px;
           }
           #colorPicker{
-            opacity: 1;
             width: 100px;
             height: 50px;
+          }
+
+          #textColor {
+            color: inherit;
+            position: absolute;
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            top: 5px;
+            left: 265px;
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            font-size: 13px;
+
+
           }
         </style>
 
@@ -35,6 +44,7 @@
       <div id="slideout">
         <div id="slideout_inner">
           <input id="colorPicker" type="color" value="#ff0000"/>
+          <div id="textColor"><b>COLOR</div>
         </div>
       </div>
         <script src="jquery-3.4.1.min.js"></script>
@@ -43,6 +53,7 @@
           function init(){
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
+            let pickedColor = '';
             canvas.addEventListener("mousemove", getMouseCoords, false);
             colorPicker.addEventListener("change", watchColorPicker, false);
 

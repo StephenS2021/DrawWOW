@@ -1,6 +1,6 @@
 <html>
-
     <head>
+
         <title>DrawWOW</title>
         <style type='text/css'>
           html{overflow: hidden;}
@@ -25,20 +25,56 @@
             height: 50px;
           }
 
+          #textColor {
+            color: inherit;
+            position: absolute;
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            top: 5px;
+            left: 252px;
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            font-size: 13px;
+
+
+          }
+        </style>
+
         </style>
     </head>
     <canvas id="canvas"></canvas>
     <body>
       <div id="slideout">
         <div id="slideout_inner">
-          <input id="colorPicker" type="color" value="#ff0000"/>
+          <input id="colorPicker" type="color" value="#ffffff"/>
+          <div id="textColor"><p>COLOR</div>
         </div>
       </div>
-        <script src="jquery-3.4.1.min.js"></script>
-
+        <script src="jquery-3.4.1.min.js">
+        </script>
         <script type='text/javascript'>
           let coords = []
-          let points = [{}]
+          let colorPicker;
+          let defaultColor = "#ffffff";
+
+          window.addEventListener("load", startup, false);
+          function startup() {
+            colorPicker = document.querySelector("#colorPicker");
+            colorPicker.value = defaultColor;
+            colorPicker.addEventListener("input", updateFirst, false);
+            colorPicker.addEventListener("change", updateAll, false);
+            colorPicker.select();
+          }
+          function updateFirst(event) {
+            let p = document.querySelector("p");
+            if (p) {
+              p.style.color = event.target.value;
+            }
+          }
+          function updateAll(event) {
+            document.querySelectorAll("p").forEach(function(p) {
+              p.style.color = event.target.value;
+            });
+          }
 
           function init(){
             const canvas = document.getElementById('canvas');

@@ -79,9 +79,10 @@
           function init(){
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
-            let pickedColor = '';
+            let pickedColor = ''
             canvas.addEventListener('mousedown', onMouseDown, false);
             colorPicker.addEventListener("change", watchColorPicker, false);
+            ctx.imageSmoothingEnabled = value;
 
 
             ctx.canvas.width  = window.innerWidth
@@ -109,7 +110,7 @@
 
             ctx.beginPath();
             ctx.fillStyle = pickedColor;
-            ctx.fillRect(coords[0], coords[1], 4, 4);
+            ctx.fillRect(coords[0], coords[1], 10, 10);
 
 
           }
@@ -126,6 +127,7 @@
 
           function watchColorPicker(event){//gets color picked and sets to draw color
             pickedColor = event.target.value
+
 
           }
 

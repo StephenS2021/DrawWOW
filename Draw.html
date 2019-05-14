@@ -80,9 +80,10 @@
           function init(){
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
-
+            let pickedColor = ''
             canvas.addEventListener('mousedown', onMouseDown, false);
             colorPicker.addEventListener("change", watchColorPicker, false);
+            ctx.imageSmoothingEnabled = value;
 
 
             ctx.canvas.width  = window.innerWidth

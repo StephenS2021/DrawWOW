@@ -49,11 +49,10 @@
           <div id="textColor"><p>COLOR</div>
         </div>
       </div>
-        <script src="jquery-3.4.1.min.js">
-        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type="text/javascript"> </script>
         <script type='text/javascript'>
           let pickedColor = '#000000';
-          let coords = []
+          let coords = {}
           let colorPicker;
           let defaultColor = '';
 
@@ -83,26 +82,22 @@
             let pickedColor = ''
             canvas.addEventListener('mousedown', onMouseDown, false);
             colorPicker.addEventListener("change", watchColorPicker, false);
-            ctx.imageSmoothingEnabled = value;
-
 
             ctx.canvas.width  = window.innerWidth
             ctx.canvas.height = window.innerHeight
             ctx.fillStyle = "white";
             ctx.fillRect (0, 0, 1920, 1080);
 
-            animTimer = setInterval( update, 16 );
-
-          }
-
-          function update(){
-            //update colors on board
-            // const canvas = document.getElementById('canvas');
-            // const ctx = canvas.getContext('2d');
-            // ctx.canvas.width  = window.innerWidth
-            // ctx.canvas.height = window.innerHeight
-
-
+            let dimensionsData = {width: window.innerWidth,height: window.innerHeight}
+            $.ajax({
+              type:'POST',
+              data: dimensionsData,
+              url: 'http://127.0.0.1:3000/dimensions',	
+              crossDomain: true,			
+              success: function(data) {
+                console.log('success');
+                console.log(JSON.stringify(data));
+            }})
           }
 
           function draw(){
@@ -110,9 +105,8 @@
             const ctx = canvas.getContext('2d');
 
             ctx.beginPath();
-            ctx.fillStyle = pickedColor;
-            ctx.fillRect(coords[0] - 10, coords[1] - 10, 1, 1);
-
+            ctx.fillStyle = coords.col;
+            ctx.fillRect(coords.x - 10, coords.y - 10, 1, 1);
 
           }
 
@@ -120,16 +114,22 @@
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
 
-            coords = [event.clientX, event.clientY];
+            coords = {x: event.clientX, y: event.clientY, col: pickedColor};
+            
+            $.ajax({
+              type:'POST',
+              data: coords,
+              url: 'http://127.0.0.1:3000/drawData',	
+              crossDomain: true,			
+              success: function(data) {
+                console.log('success');
+                console.log(JSON.stringify(data));
+            }})
             draw();
-
-
           }
 
           function watchColorPicker(event){//gets color picked and sets to draw color
             pickedColor = event.target.value
-
-
           }
 
 

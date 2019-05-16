@@ -1,20 +1,14 @@
-const http = require('http');
-const url = require('url');  
-const fs = require('fs');  
+const express = require('express')
+const path = require('path')
 
-const hostname = '127.0.0.1';
-const port = 3000;
+const server = http.createServer()
+const app = express();
+
+app.get( '/', function(req, res) {
+  res.sendFile( path.join(__dirname, 'Draw.html'))
+})
 
 
-fs.readFile("Draw.html", function(err, data){
-  if(err){
-     response.writeHead(404);
-     response.write("Not Found!");
-  }
-  else{
-     response.writeHead(200, {'Content-Type': contentType});
-     response.write(data);
-  }
-  response.end();
-});
-
+app.listen(3000, function() {
+  console.log('Server Running')
+})

@@ -18,10 +18,6 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json())
 
-// app.post('/dimensions', function(req, res){ //gets dimensions of canvas
-
-
-// })
 
 function drawData(){
   app.get('/drawData', function(req, res){ //gets onclick data and sets color and sends back the canvas

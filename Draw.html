@@ -55,6 +55,8 @@
           let coords = {}
           let colorPicker;
           let defaultColor = '';
+          let canvasData;
+          let PORT = 3001;
 
           window.addEventListener("load", startup, false);
           function startup() {
@@ -88,23 +90,43 @@
             ctx.fillStyle = "white";
             ctx.fillRect (0, 0, 1920, 1080);
 
-            let dimensionsData = {width: window.innerWidth,height: window.innerHeight}
+            window.setInterval(updateCanvas, 1000)
 
-            $.ajax({
-              type:'POST',
-              data: dimensionsData,
-              url: 'http://127.0.0.1:3000/dimensions',	
-              crossDomain: true,			
-              })
+            // let dimensionsData = {width: window.innerWidth,height: window.innerHeight}
+
+            // $.ajax({
+            //   type:'POST',
+            //   data: dimensionsData,
+            //   url: 'http://127.0.0.1:' + PORT + '/dimensions',	
+            //   crossDomain: true,
+            //   success: function(data, textStatus, XmlHttpRequest) {
+            //     if (XmlHttpRequest.status === 200) {
+            //       canvasData = $(XmlHttpRequest.responseJSON)
+            //       console.log(canvasData)
+            //      }
+            //     },
+            //   })
           }
 
-          function draw(){
+          function updateCanvas(){ //updated canvas with server values
+            var canvas = document.getElementById('canvas');
+            var ctx = canvas.getContext('2d');
+            for(var key in canvasData){
+              if(canvasData.hasOwnProperty(key)){
+                draw((Math.round(canvasData[key].x/10)*10)-10, (Math.round(canvasData[key].y/10)*10)-10, canvasData[key].col)
+
+              }
+
+            }
+            
+          }
+          function draw(drawX, drawY, drawColor){
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
 
             ctx.beginPath();
-            ctx.fillStyle = coords.col;
-            ctx.fillRect((Math.round(coords.x/10)*10)-10, (Math.round(coords.y/10)*10)-10, 10, 10); //rounds x and y to nearest 10th and makes a 10x10 px tile
+            ctx.fillStyle = drawColor;
+            ctx.fillRect(drawX, drawY, 10, 10); //rounds x and y to nearest 10th and makes a 10x10 px tile
 
           }
 
@@ -117,10 +139,19 @@
             $.ajax({
               type:'GET',
               data: coords,
-              url: 'http://127.0.0.1:3000/drawData',	
+              url: 'http://127.0.0.1:'+ PORT + '/drawData',	
               crossDomain: true,
+              success: function(data, textStatus, XmlHttpRequest) {
+                if (XmlHttpRequest.status === 200) {
+                   canvasData = $(XmlHttpRequest.responseJSON)
+
+                 }
+                },
               })
-            draw();
+
+            draw((Math.round(coords.x/10)*10)-10, (Math.round(coords.y/10)*10)-10, coords.col);
+
+
           }
 
           function watchColorPicker(event){//gets color picked and sets to draw color
@@ -129,6 +160,7 @@
 
 
           window.onload = init;
+
         </script>
 
     </body>
